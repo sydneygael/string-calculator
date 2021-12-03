@@ -48,4 +48,11 @@ class StringCalculatorTest {
         assertThat(calculator.Add("//:\n1:2")).isEqualTo(3);
     }
 
+    @Test
+    void should_check_negatives() {
+        assertThatThrownBy(() ->calculator.Add("2;-5"))
+                .withFailMessage(() -> "negatives not allowed -5")
+                .isInstanceOf(RuntimeException.class);
+    }
+
 }

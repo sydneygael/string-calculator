@@ -16,11 +16,24 @@ public class StringCalculator {
         if (null == numbers || numbers.isBlank()){
             return 0;
         } else {
-            List<Integer> numbersList = Arrays.stream(getSplit(numbers))
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
+            List<Integer> numbersList = getNumbers(numbers);
+            checkNegative(numbersList);
             return numbersList.stream().reduce(Integer::sum).orElse(0);
         }
+    }
+
+    private void checkNegative(List<Integer> numbers) {
+        StringBuilder stringBuilder = new StringBuilder();
+        numbers.stream().filter( number -> number <0).forEach(number -> stringBuilder.append(number).append(","));
+        if(!stringBuilder.toString().isEmpty()) {
+            throw new RuntimeException("negatives not allowed "+stringBuilder.toString());
+        }
+    }
+
+    private List<Integer> getNumbers(String numbers) {
+        return Arrays.stream(getSplit(numbers))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
     }
 
 
